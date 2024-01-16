@@ -45,3 +45,25 @@ class DoublePendulumWindow(PendulumWindow) :
         phi2_dot_dot = ((m1+m2)*(l1*phi1_dot**2*np.sin(phi2-phi1) - G*np.sin(phi2) + G*np.sin(phi1)*np.cos(phi2-phi1)) + m2*l2*phi2_dot**2*np.sin(phi2-phi1)*np.cos(phi2-phi1))/(l2*(m1 + m2*(np.sin(phi2-phi1)**2)))
 
         return [phi1_dot, phi2_dot, phi1_dot_dot, phi2_dot_dot]
+    
+    def solveODE(self) :
+        """ Retrieve the parameters given in entries and solve the equations"""
+
+        variable_list = []
+        for widget in (self.entriesFrame.winfo_children()):
+            if type(widget) == type(Entry()):
+                variable_list.append(float(widget.get()))
+                
+        initial_state = [variable_list[0]*np.pi/180, variable_list[3]*np.pi/180, variable_list[6], variable_list[9]]
+        l_value = variable_list[1]
+        t0 = int(variable_list[2])
+        l2 = int(variable_list[4])
+        m1 = int(variable_list[5])
+        n = int(variable_list[7])
+        ti = int(variable_list[8])
+        m2 = int(variable_list[10])
+        t_span = np.linspace(t0,ti,n)
+
+        solution = odeint(self.ODE, initial_state, t_span, args=(l_value, l2, m1, m2 ))
+
+        return [solution[:, 0], solution[:,1], solution[:,2], solution[:,3], t_span]
