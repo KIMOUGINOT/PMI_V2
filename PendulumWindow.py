@@ -1,5 +1,9 @@
 from Windows import *
 from PendulumWindow_utilities import *
+from scipy.integrate import odeint
+import numpy as np
+
+G = 9.81 # acceleration due to gravity (m/s^2)
 
 class PendulumWindow(Windows) :
 
@@ -93,13 +97,19 @@ class PendulumWindow(Windows) :
             if type(widget) == type(Entry()):
                 variable_list.append(float(widget.get()))
                 
-        theta0 = variable_list[0]*3.141592/180
-        L = variable_list[1]
-        t0 = variable_list[2]
-        theta_dot0 = variable_list[3]
-        n = variable_list[4]
-        ti = variable_list[5]
-        T,Theta,Theta_dot = solve_pendulum(theta0, theta_dot0, t0, ti, L, int(n))
+        initial_state = [variable_list[0]*np.pi/180, variable_list[3]]
+        l_value = variable_list[1]
+        t0 = int(variable_list[2])
+        n = int(variable_list[4])
+        ti = int(variable_list[5])
+        t_span = np.linspace(t0,ti,n)
+
+        # Solve the system of first-order differential equations using odeint
+        solution = odeint(self.ODE, initial_state, t_span, args=(l_value, ))
+
+        # Extract results for plotting
+        theta_values = solution[:, 0]
+        theta_dot_values = solution[:, 1]
 
         width = self.leftFrame.winfo_width() / 100  # Converti en pouces pour la taille de la figure
         height = self.leftFrame.winfo_height() / 100  # Converti en pouces pour la taille de la figure
@@ -107,13 +117,13 @@ class PendulumWindow(Windows) :
 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
 
-        ax1.plot(T, Theta)
+        ax1.plot(t_span, theta_values)
         ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
         ax1.set_xlabel('Temps')
         ax1.set_ylabel('Angle')
 
-        ax2.plot(T, Theta_dot)
-        ax2.set_title('Évolution de la vitesse angulaire du pendule en fonction du temps')
+        ax2.plot(theta_values, theta_dot_values)
+        ax2.set_title('Portrait de phase')
         ax2.set_xlabel('Temps')
         ax2.set_ylabel('Vitesse angulaire')
 
@@ -134,3 +144,11 @@ class PendulumWindow(Windows) :
         # Affichez le menu
         if hasattr(parent_widget, 'menu'):
             parent_widget.menu.grid(sticky='nsew')
+    
+    def ODE(self, state, t, l):
+        phi, phi_dot = state[0], state[1]
+
+        phi_dot_dot = -(G / l) * np.sin(phi)
+
+        return [phi_dot, phi_dot_dot]
+
