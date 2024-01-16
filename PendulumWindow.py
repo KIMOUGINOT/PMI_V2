@@ -1,5 +1,6 @@
 from Windows import *
-from PendulumWindow_utilities import *
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from scipy.integrate import odeint
 import numpy as np
 
