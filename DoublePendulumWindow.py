@@ -6,12 +6,12 @@ class DoublePendulumWindow(PendulumWindow) :
         super().__init__(parent, w, h, text)
 
         phi0Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
-        phi0Label = Label(self.entriesFrame, text=chr(952)+"(t0)  (deg)", bg =CANVAS_COLOR, font="Helvetica")
+        phi0Label = Label(self.entriesFrame, text=chr(966)+"(t0)  (deg)", bg =CANVAS_COLOR, font="Helvetica")
         l2Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
         l2Label = Label(self.entriesFrame, text="L2", bg =CANVAS_COLOR, font="Helvetica")
        
         phiPoint0Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
-        phiPoint0Label = Label(self.entriesFrame, text="d" + chr(952) +"/dt" +"(t0)  (rad/s)", bg =CANVAS_COLOR, font="Helvetica")
+        phiPoint0Label = Label(self.entriesFrame, text="d" + chr(966) +"/dt" +"(t0)  (rad/s)", bg =CANVAS_COLOR, font="Helvetica")
         m2Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
         m2Label = Label(self.entriesFrame, text="m2", bg =CANVAS_COLOR, font="Helvetica")
         m1Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
