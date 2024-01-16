@@ -11,7 +11,7 @@ class PendulumWindow(Windows) :
         ###############################
         ### Back to the menu button ###
 
-        backButton = Button(self.leftFrame, text='back',command=lambda: back(self),bg =CANVAS_COLOR, font="Helvetica")
+        backButton = Button(self.leftFrame, text='back',command=lambda: self.back(),bg =CANVAS_COLOR, font="Helvetica")
         backButton.place(relx = 0.005, rely=0.005, anchor='nw')
 
         #########################
@@ -70,8 +70,8 @@ class PendulumWindow(Windows) :
         ### Frame of buttons ###
         self.buttonFrame = Frame(self.rightFrame, bg=FRAME_COLOR)
         self.buttonFrame.place(relx = 0.5, rely=0.8, anchor='center')
-        clearButton = Button(self.buttonFrame, text = "clear", command =lambda: clearAll(self.entriesFrame), bg =CANVAS_COLOR, font="Helvetica")
-        self.loadButton = Button(self.buttonFrame, text = "load", command =lambda: loadGraph(self.entriesFrame) , bg =CANVAS_COLOR, font="Helvetica")
+        clearButton = Button(self.buttonFrame, text = "clear", command =lambda: self.clearAll(), bg =CANVAS_COLOR, font="Helvetica")
+        self.loadButton = Button(self.buttonFrame, text = "load", command =lambda: self.loadGraph() , bg =CANVAS_COLOR, font="Helvetica")
         clearButton.grid(row=0, column=0, sticky = 'nsew',padx = 3, pady = 3)
         self.loadButton.grid(row=0, column=1, sticky = 'nsew',padx = 3, pady = 3)
         self.buttonFrame.rowconfigure(index = 0, pad = 1, weight=1)
@@ -80,4 +80,56 @@ class PendulumWindow(Windows) :
 
         #########################################################################
 
+    def clearAll(self) :
+        """clear all the entries given in parameters"""
+        for widget in (self.entriesFrame.winfo_children()):
+            if type(widget) == type(Entry()):
+                widget.delete(0,END)
 
+    def loadGraph(self) :
+        """ Retrieve the parameters given in entries and call solving functions to show the graph"""
+        variable_list = []
+        for widget in (self.entriesFrame.winfo_children()):
+            if type(widget) == type(Entry()):
+                variable_list.append(float(widget.get()))
+                
+        theta0 = variable_list[0]*3.141592/180
+        L = variable_list[1]
+        t0 = variable_list[2]
+        theta_dot0 = variable_list[3]
+        n = variable_list[4]
+        ti = variable_list[5]
+        T,Theta,Theta_dot = solve_pendulum(theta0, theta_dot0, t0, ti, L, int(n))
+
+        width = self.leftFrame.winfo_width() / 100  # Converti en pouces pour la taille de la figure
+        height = self.leftFrame.winfo_height() / 100  # Converti en pouces pour la taille de la figure
+
+
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
+
+        ax1.plot(T, Theta)
+        ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
+        ax1.set_xlabel('Temps')
+        ax1.set_ylabel('Angle')
+
+        ax2.plot(T, Theta_dot)
+        ax2.set_title('Évolution de la vitesse angulaire du pendule en fonction du temps')
+        ax2.set_xlabel('Temps')
+        ax2.set_ylabel('Vitesse angulaire')
+
+        canvas = FigureCanvasTkAgg(fig, master=self.leftFrame)
+        canvas.draw()
+        canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
+    
+    def back(self):
+        parent_widget = self.winfo_parent()  # Obtenez l'objet parent
+        if isinstance(parent_widget, str):
+            parent_widget = self.nametowidget(parent_widget)  # Convertissez le nom en widget
+
+        # Cachez tous les widgets enfants du parent
+        for widget in parent_widget.winfo_children():
+            widget.grid_remove()
+
+        # Affichez le menu
+        if hasattr(parent_widget, 'menu'):
+            parent_widget.menu.grid(sticky='nsew')
