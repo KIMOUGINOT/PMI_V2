@@ -127,6 +127,8 @@ class PendulumWindow(Windows) :
         ax2.set_xlabel('Temps')
         ax2.set_ylabel('Vitesse angulaire')
 
+        plt.tight_layout()
+
         self.canvas = FigureCanvasTkAgg(fig, master=self.leftFrame)
         self.canvas.draw()
         self.canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
