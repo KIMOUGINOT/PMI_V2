@@ -16,6 +16,13 @@ class DoublePendulumWindow(PendulumWindow) :
         m2Label = Label(self.entriesFrame, text="m2", bg =CANVAS_COLOR, font="Helvetica")
         m1Entry = Entry(self.entriesFrame, bg =FRAME_COLOR)
         m1Label = Label(self.entriesFrame, text="m1", bg =CANVAS_COLOR, font="Helvetica")
+
+        phi0Entry.insert(0,"30")
+        phiPoint0Entry.insert(0,"0")
+        l2Entry.insert(0,"1")
+        m2Entry.insert(0,"10")
+        m1Entry.insert(0,"10")
+        
         
         phi0Label.grid(row = 6, column = 0, sticky = 'nsew',padx = 3, pady = 3) 
         phi0Entry.grid(row = 7, column = 0 , sticky = 'nsew',padx = 3, pady = 3)

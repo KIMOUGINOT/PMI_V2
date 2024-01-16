@@ -15,6 +15,9 @@ class ForcedDoublePendulumWindow(DoublePendulumWindow) :
         AEntry.grid(row = 13, column = 1, sticky = 'nsew',padx = 3, pady = 3)
         self.entriesFrame.rowconfigure(index=12, pad=1, weight=1)
         self.entriesFrame.rowconfigure(index=13, pad=1, weight=1)
+        
+        wEntry.insert(0,"10")
+        AEntry.insert(0,"5")
 
     def ODE(self, state, t, l1, l2, m1, m2, A, w):
         phi1, phi2, phi1_dot, phi2_dot = state
