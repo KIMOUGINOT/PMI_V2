@@ -117,11 +117,12 @@ class PendulumWindow(Windows) :
         ax2.set_xlabel('Temps')
         ax2.set_ylabel('Vitesse angulaire')
 
-        canvas = FigureCanvasTkAgg(fig, master=self.leftFrame)
-        canvas.draw()
-        canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
+        self.canvas = FigureCanvasTkAgg(fig, master=self.leftFrame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
     
     def back(self):
+        self.canvas.get_tk_widget().place_forget()
         parent_widget = self.winfo_parent()  # Obtenez l'objet parent
         if isinstance(parent_widget, str):
             parent_widget = self.nametowidget(parent_widget)  # Convertissez le nom en widget
