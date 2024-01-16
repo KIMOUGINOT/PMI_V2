@@ -15,8 +15,8 @@ class PendulumWindow(Windows) :
         ###############################
         ### Back to the menu button ###
 
-        backButton = Button(self.leftFrame, text='back',command=lambda: self.back(),bg =CANVAS_COLOR, font="Helvetica")
-        backButton.place(relx = 0.005, rely=0.005, anchor='nw')
+        self.backButton = Button(self.leftFrame, text='back',command=lambda: self.back(),bg =CANVAS_COLOR, font="Helvetica")
+        self.backButton.place(relx = 0.005, rely=0.005, anchor='nw')
 
         #########################
         ### Presentation text ###
@@ -134,7 +134,9 @@ class PendulumWindow(Windows) :
         self.canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
     
     def back(self):
-        self.canvas.get_tk_widget().place_forget()
+        for child in self.leftFrame.winfo_children():
+            child.place_forget()
+        self.backButton.place(relx = 0.005, rely=0.005, anchor='nw')
         parent_widget = self.winfo_parent()  # Obtenez l'objet parent
         if isinstance(parent_widget, str):
             parent_widget = self.nametowidget(parent_widget)  # Convertissez le nom en widget
