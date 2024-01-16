@@ -75,7 +75,7 @@ class PendulumWindow(Windows) :
         self.buttonFrame = Frame(self.rightFrame, bg=FRAME_COLOR)
         self.buttonFrame.place(relx = 0.5, rely=0.8, anchor='center')
         clearButton = Button(self.buttonFrame, text = "clear", command =lambda: self.clearAll(), bg =CANVAS_COLOR, font="Helvetica")
-        self.loadButton = Button(self.buttonFrame, text = "load", command =lambda: self.loadGraph() , bg =CANVAS_COLOR, font="Helvetica")
+        self.loadButton = Button(self.buttonFrame, text = "load", command =lambda: self.showGraph() , bg =CANVAS_COLOR, font="Helvetica")
         clearButton.grid(row=0, column=0, sticky = 'nsew',padx = 3, pady = 3)
         self.loadButton.grid(row=0, column=1, sticky = 'nsew',padx = 3, pady = 3)
         self.buttonFrame.rowconfigure(index = 0, pad = 1, weight=1)
@@ -90,8 +90,9 @@ class PendulumWindow(Windows) :
             if type(widget) == type(Entry()):
                 widget.delete(0,END)
 
-    def loadGraph(self) :
-        """ Retrieve the parameters given in entries and call solving functions to show the graph"""
+    def solveODE(self) :
+        """ Retrieve the parameters given in entries and solve the equations"""
+
         variable_list = []
         for widget in (self.entriesFrame.winfo_children()):
             if type(widget) == type(Entry()):
@@ -104,17 +105,14 @@ class PendulumWindow(Windows) :
         ti = int(variable_list[5])
         t_span = np.linspace(t0,ti,n)
 
-        # Solve the system of first-order differential equations using odeint
         solution = odeint(self.ODE, initial_state, t_span, args=(l_value, ))
 
-        # Extract results for plotting
-        theta_values = solution[:, 0]
-        theta_dot_values = solution[:, 1]
+        return [solution[:, 0], solution[:,1], t_span]
 
+    def showGraph(self) :
+        theta_values, theta_dot_values, t_span = self.solveODE()
         width = self.leftFrame.winfo_width() / 100  # Converti en pouces pour la taille de la figure
         height = self.leftFrame.winfo_height() / 100  # Converti en pouces pour la taille de la figure
-
-
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
 
         ax1.plot(t_span, theta_values)
