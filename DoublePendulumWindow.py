@@ -31,4 +31,10 @@ class DoublePendulumWindow(PendulumWindow) :
         for i in range(6,12):
             self.entriesFrame.rowconfigure(index = i, pad = 1, weight=1)
 
-        
+    def ODE(self, state, t, l1, l2, m1, m2):
+        phi1, phi2, phi1_dot, phi2_dot = state
+
+        phi1_dot_dot = (m2*G*np.sin(phi2)*np.cos(phi2-phi1) - m2*np.sin(phi2-phi1)*(l1*phi1_dot**2*np.cos(phi2-phi1) + l2*phi2_dot**2) - (m1+m2)*G*np.sin(phi1))/(l1*(m1 + m2*(np.sin(phi2-phi1))**2))
+        phi2_dot_dot = ((m1+m2)*(l1*phi1_dot**2*np.sin(phi2-phi1) - G*np.sin(phi2) + G*np.sin(phi1)*np.cos(phi2-phi1)) + m2*l2*phi2_dot**2*np.sin(phi2-phi1)*np.cos(phi2-phi1))/(l2*(m1 + m2*(np.sin(phi2-phi1)**2)))
+
+        return [phi1_dot, phi2_dot, phi1_dot_dot, phi2_dot_dot]
