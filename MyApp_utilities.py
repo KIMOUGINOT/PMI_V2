@@ -1,0 +1,1 @@
+presentationText1 = "Choisissez les parametres convenant à \nvotre simulation afin de voir les différents\ngraphiques de celle-ci."
