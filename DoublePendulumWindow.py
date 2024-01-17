@@ -67,3 +67,25 @@ class DoublePendulumWindow(PendulumWindow) :
         solution = odeint(self.ODE, initial_state, t_span, args=(l_value, l2, m1, m2 ))
 
         return [solution[:, 0], solution[:,1], solution[:,2], solution[:,3], t_span]
+    
+    def showGraph(self) :
+        theta_values, theta_dot_values, t_span = self.solveODE()
+        width = self.leftFrame.winfo_width() / 100  # Converti en pouces pour la taille de la figure
+        height = self.leftFrame.winfo_height() / 100  # Converti en pouces pour la taille de la figure
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
+
+        ax1.plot(t_span, theta_values)
+        ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
+        ax1.set_xlabel('Temps')
+        ax1.set_ylabel('Angle')
+
+        ax2.plot(theta_values, theta_dot_values)
+        ax2.set_title('Portrait de phase')
+        ax2.set_xlabel('Temps')
+        ax2.set_ylabel('Vitesse angulaire')
+
+        plt.tight_layout()
+
+        self.canvas = FigureCanvasTkAgg(fig, master=self.leftFrame)
+        self.canvas.draw()
+        self.canvas.get_tk_widget().place(relx = 0.06, rely=0.05, anchor='nw')
