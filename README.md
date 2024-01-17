@@ -21,8 +21,8 @@ You can simulate 4 situations :
 
 - A simple pendulum with a fixed non-movable extremity.
 
-- A forced simple pendulum : it's a simple pendulum whose formerly non-movable extremity now oscillate at a frequence w and an amplitude A.
+- A forced simple pendulum : it's a simple pendulum whose formerly non-movable extremity now oscillate at a frequency w and an amplitude A.
 
 - A double pendulum : it's a simple pendulum who possess another simple pendulum at one of its extremity (the other one is fixed and non-movable).
 
-- A forced double pendulum : it's a double pendulum whose formerly non-movable extremity now oscillate at a frequence w and an amplitude A.
+- A forced double pendulum : it's a double pendulum whose formerly non-movable extremity now oscillate at a frequency w and an amplitude A.
