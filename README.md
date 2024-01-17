@@ -6,7 +6,7 @@ Here, you'll be able to simulate simple pendulum and double pendulum equations w
 
 In my first year of engineering school, I had to implement this project in a team of four students :
 
- ![](image\subject.png)
+ ![Image of the exercise](image\subject.png)
 
 We split the work like so :
 They had to solve all the equations so that I could embed them in a Python Graphical User Interface (GUI).
