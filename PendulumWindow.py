@@ -19,6 +19,15 @@ class PendulumWindow(Windows) :
         self.backButton = Button(self.leftFrame, text='back',command=lambda: self.back(),bg =CANVAS_COLOR, font="Helvetica")
         self.backButton.place(relx = 0.005, rely=0.005, anchor='nw')
 
+        ######################
+        ### Display choice ###
+
+        list_items = ["Graphs","Simulation"]
+        self.listBox = Listbox(self.leftFrame, height=len(list_items), bg=FRAME_COLOR)
+        for item in list_items:
+            self.listBox.insert(END, item)
+        self.listBox.place(relx = 0.995, rely=0.005, anchor='ne')
+
         #########################
         ### Presentation text ###
 
