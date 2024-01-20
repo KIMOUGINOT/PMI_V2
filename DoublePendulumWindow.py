@@ -21,7 +21,7 @@ class DoublePendulumWindow(PendulumWindow) :
         phiPoint0Entry.insert(0,"0")
         l2Entry.insert(0,"1")
         m2Entry.insert(0,"10")
-        m1Entry.insert(0,"10")
+        m1Entry.insert(0,"9")
         
         
         phi0Label.grid(row = 6, column = 0, sticky = 'nsew',padx = 3, pady = 3) 
@@ -53,15 +53,15 @@ class DoublePendulumWindow(PendulumWindow) :
         for widget in (self.entriesFrame.winfo_children()):
             if type(widget) == type(Entry()):
                 variable_list.append(float(widget.get()))
-                
-        initial_state = [variable_list[0]*np.pi/180, variable_list[3]*np.pi/180, variable_list[6], variable_list[9]]
+        print(variable_list)
+        initial_state = [variable_list[0]*np.pi/180, variable_list[6]*np.pi/180, variable_list[3], variable_list[8]]
         l_value = variable_list[1]
         t0 = int(variable_list[2])
-        l2 = int(variable_list[4])
-        m1 = int(variable_list[5])
-        n = int(variable_list[7])
-        ti = int(variable_list[8])
-        m2 = int(variable_list[10])
+        l2 = int(variable_list[7])
+        m1 = int(variable_list[10])
+        n = int(variable_list[4])
+        ti = int(variable_list[5])
+        m2 = int(variable_list[9])
         t_span = np.linspace(t0,ti,n)
 
         solution = odeint(self.ODE, initial_state, t_span, args=(l_value, l2, m1, m2 ))
@@ -69,10 +69,10 @@ class DoublePendulumWindow(PendulumWindow) :
         return [solution[:, 0], solution[:,1], solution[:,2], solution[:,3], t_span]
     
     def showGraph(self) :
-        theta_values, theta_dot_values, t_span = self.solveODE()
+        theta_values, phi_values, theta_dot_values, phi_dot_values, t_span = self.solveODE()
         width = self.leftFrame.winfo_width() / 100  # Converti en pouces pour la taille de la figure
         height = self.leftFrame.winfo_height() / 100  # Converti en pouces pour la taille de la figure
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
+        fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(width-1, height-1))
 
         ax1.plot(t_span, theta_values)
         ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
@@ -83,6 +83,16 @@ class DoublePendulumWindow(PendulumWindow) :
         ax2.set_title('Portrait de phase')
         ax2.set_xlabel('Temps')
         ax2.set_ylabel('Vitesse angulaire')
+
+        ax3.plot(t_span, phi_values)
+        ax3.set_title('Évolution de l\'angle du pendule en fonction du temps')
+        ax3.set_xlabel('Temps')
+        ax3.set_ylabel('Angle')
+
+        ax4.plot(phi_values, phi_dot_values)
+        ax4.set_title('Portrait de phase')
+        ax4.set_xlabel('Temps')
+        ax4.set_ylabel('Vitesse angulaire')
 
         plt.tight_layout()
 
