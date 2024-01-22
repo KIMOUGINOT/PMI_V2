@@ -26,7 +26,7 @@ class PendulumWindow(Windows) :
         self.listBox = Listbox(self.leftFrame, height=len(list_items), bg=FRAME_COLOR)
         for item in list_items:
             self.listBox.insert(END, item)
-        self.listBox.place(relx = 0.995, rely=0.005, anchor='ne')
+        self.listBox.place(relx = 1, rely=0, anchor='ne')
 
         #########################
         ### Presentation text ###
@@ -126,14 +126,14 @@ class PendulumWindow(Windows) :
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(width-1, height-1))
 
         ax1.plot(t_span, theta_values)
-        ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
-        ax1.set_xlabel('Temps')
-        ax1.set_ylabel('Angle')
+        ax1.set_title(chr(952)+' as a function of time')
+        ax1.set_xlabel('Time')
+        ax1.set_ylabel(chr(952))
 
         ax2.plot(theta_values, theta_dot_values)
-        ax2.set_title('Portrait de phase')
-        ax2.set_xlabel('Temps')
-        ax2.set_ylabel('Vitesse angulaire')
+        ax2.set_title('Phase portrait')
+        ax2.set_xlabel(chr(952))
+        ax2.set_ylabel('d'+ chr(952) + '/dt')
 
         plt.tight_layout()
 
@@ -145,15 +145,13 @@ class PendulumWindow(Windows) :
         for child in self.leftFrame.winfo_children():
             child.place_forget()
         self.backButton.place(relx = 0.005, rely=0.005, anchor='nw')
-        parent_widget = self.winfo_parent()  # Obtenez l'objet parent
+        parent_widget = self.winfo_parent()
         if isinstance(parent_widget, str):
-            parent_widget = self.nametowidget(parent_widget)  # Convertissez le nom en widget
+            parent_widget = self.nametowidget(parent_widget)
 
-        # Cachez tous les widgets enfants du parent
         for widget in parent_widget.winfo_children():
             widget.grid_remove()
 
-        # Affichez le menu
         if hasattr(parent_widget, 'menu'):
             parent_widget.menu.grid(sticky='nsew')
     

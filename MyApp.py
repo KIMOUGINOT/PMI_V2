@@ -47,6 +47,4 @@ class MyApp(Tk) :
         self.menu.button[3].config(command=loadForcedDoublePendulum)
 
         self.menu.grid()
-
-
   

@@ -53,7 +53,7 @@ class DoublePendulumWindow(PendulumWindow) :
         for widget in (self.entriesFrame.winfo_children()):
             if type(widget) == type(Entry()):
                 variable_list.append(float(widget.get()))
-        print(variable_list)
+
         initial_state = [variable_list[0]*np.pi/180, variable_list[6]*np.pi/180, variable_list[3], variable_list[8]]
         l_value = variable_list[1]
         t0 = int(variable_list[2])
@@ -75,24 +75,24 @@ class DoublePendulumWindow(PendulumWindow) :
         fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, figsize=(width-1, height-1))
 
         ax1.plot(t_span, theta_values)
-        ax1.set_title('Évolution de l\'angle du pendule en fonction du temps')
-        ax1.set_xlabel('Temps')
-        ax1.set_ylabel('Angle')
+        ax1.set_title(chr(952) + ' as a function of time')
+        ax1.set_xlabel('Time')
+        ax1.set_ylabel(chr(952))
 
         ax2.plot(theta_values, theta_dot_values)
-        ax2.set_title('Portrait de phase')
-        ax2.set_xlabel('Temps')
-        ax2.set_ylabel('Vitesse angulaire')
+        ax2.set_title('Phase portrait')
+        ax2.set_xlabel(chr(952))
+        ax2.set_ylabel('d'+chr(952)+'/dt')
 
         ax3.plot(t_span, phi_values)
-        ax3.set_title('Évolution de l\'angle du pendule en fonction du temps')
-        ax3.set_xlabel('Temps')
-        ax3.set_ylabel('Angle')
+        ax3.set_title(chr(966) + ' as a function of time')
+        ax3.set_xlabel('Time')
+        ax3.set_ylabel(chr(966))
 
         ax4.plot(phi_values, phi_dot_values)
-        ax4.set_title('Portrait de phase')
-        ax4.set_xlabel('Temps')
-        ax4.set_ylabel('Vitesse angulaire')
+        ax4.set_title('Phase portrait')
+        ax4.set_xlabel(chr(966))
+        ax4.set_ylabel('d'+chr(966)+'/dt')
 
         plt.tight_layout()
 
