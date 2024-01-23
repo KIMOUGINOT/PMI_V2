@@ -26,3 +26,5 @@ You can simulate 4 situations :
 - A double pendulum : it's a simple pendulum who possess another simple pendulum at one of its extremity (the other one is fixed and non-movable).
 
 - A forced double pendulum : it's a double pendulum whose formerly non-movable extremity now oscillate at a frequency w and an amplitude A.
+
+Right now you can only see the graphs corresponding to each simulation which are the angle evolution through time and the phase portrait. However, I plan on creating another window in which we'll see the pendulum moving.
